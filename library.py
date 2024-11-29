@@ -30,6 +30,9 @@ class BookLibrary:
             "books": {}
         }
         self.__id = book_id
+        self.__if_add = "Книга успешно добавлена"
+        self.__if_delete = "Книга успешно удалена"
+        self.__if_new_status = "Статус успешно обновлён"
 
     def add_book(self, title: str, author: str, year: int):
         """
@@ -53,6 +56,7 @@ class BookLibrary:
             raise LibraryError.year_error
         else:
             self.__Library["books"][self.__id] = asdict(book)
+            print(self.__if_add)
 
     def delete_book(self, book_id: int):
         """
@@ -66,8 +70,10 @@ class BookLibrary:
             del self.__Library["books"][book_id]
         except KeyError:
             print(LibraryError.id_error)
+        else:
+            print(self.__if_delete)
 
-    def get_books(self, title: Optional[str] = None, author: Optional[str] = None, year: Optional[int] = None):
+    def get_books(self, title: str, author: str, year: int):
         """
         Функция для отображения книги по id
 
@@ -80,9 +86,9 @@ class BookLibrary:
         required_books = {}
 
         for index, book_param in self.__Library["books"].items():
-            if ((title is None or book_param["title"] == title) and
-                    (author is None or book_param["author"] == author) and
-                    (year is None or book_param["year"] == year)):
+            if (((not title) or book_param["_title"] == title) and
+                    ((not author) or book_param["_author"] == author) and
+                    ((not year) or book_param["_year"] == year)):
                 required_books[index] = self.__Library["books"][index]
 
         return json.dumps(required_books, ensure_ascii=False)
@@ -106,8 +112,8 @@ class BookLibrary:
             case "выдана" | "в наличии":
                 try:
                     self.__Library["books"][book_id]["status"] = status
+                    print(self.__if_new_status)
                 except KeyError:
                     print(LibraryError.id_error)
             case _:
                 raise LibraryError.status_error
-        
