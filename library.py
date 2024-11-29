@@ -1,4 +1,5 @@
 import json
+from typing import Optional
 
 
 class LibraryError(Exception):
@@ -60,7 +61,7 @@ class BookLibrary:
         except KeyError:
             print(LibraryError.id_error)
 
-    def get_books(self, title: str = None, author: str = None, year: int = None):
+    def get_books(self, title: Optional[str] = None, author: Optional[str] = None, year: Optional[int] = None):
         """
         Функция для отображения книги по id
 
