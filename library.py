@@ -1,6 +1,5 @@
 import json
 from dataclasses import dataclass, asdict
-from typing import Optional
 
 
 class LibraryError(Exception):
