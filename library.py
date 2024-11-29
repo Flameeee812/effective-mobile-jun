@@ -1,4 +1,5 @@
 import json
+from dataclasses import dataclass, asdict
 from typing import Optional
 
 
@@ -10,6 +11,15 @@ class LibraryError(Exception):
     year_error = ValueError("В параметр year введены неверные значения")
     id_error = "Книги с введённыи id нет в библиотеке"
     status_error = ValueError("Введён неверный статус")
+
+
+@dataclass
+class _Book:
+    """Класс для инициализации книги"""
+    _title: str
+    _author: str
+    _year: int
+    _status: str = "в наличии"
 
 
 class BookLibrary:
@@ -33,6 +43,7 @@ class BookLibrary:
         """
 
         self.__id += 1
+        book = _Book(title, author, year)
 
         if not isinstance(title, str):
             raise LibraryError.title_error
@@ -41,12 +52,7 @@ class BookLibrary:
         elif not isinstance(year, int):
             raise LibraryError.year_error
         else:
-            self.__Library["books"][self.__id] = {
-                "title": title,
-                "author": author,
-                "year": year,
-                "status": "в наличии"
-            }
+            self.__Library["books"][self.__id] = asdict(book)
 
     def delete_book(self, book_id: int):
         """
@@ -104,30 +110,4 @@ class BookLibrary:
                     print(LibraryError.id_error)
             case _:
                 raise LibraryError.status_error
-
-
-if __name__ == "__main__":
-    test_library = BookLibrary()
-    try:
-        test_library.add_book("Ночь в Лиссабоне", "Эрих Мария Ремарк", 1962)
-        test_library.add_book("На Западном фронте без перемен", "Эрих Мария Ремарк", 1928)
-
-        print(test_library.get_books(author="Эрих Мария Ремарк"))
-
-        test_library.add_book("Заводной апельсин", "Энтони Бёрджесс", 1962)
-        test_library.add_book("Тестовая книга", "Энтони Бёрджесс", 1962)
-
-        print(test_library.get_books(author="Энтони Бёрджесс", year=1962))
-        print(test_library.get_all_books())
-
-        test_library.delete_book(4)
-
-        print(test_library.get_all_books())
-
-        test_library.delete_book(10) #пытаюсь удалить книгу с несуществующим id
-
-        test_library.set_new_status(1, "qweqwe") #пытаюсь поменять статус на некорректный
-        test_library.set_new_status(1, "выдана")
-
-    except (LookupError, ValueError) as error:
-        print(f"Ошибка: {error}")
+        
