@@ -36,7 +36,7 @@ if __name__ == "__main__":
         7. /get_libs - Отображает все библиотеки
         8. /end - Завершает работу приложения""")
 
-            if message == "/create_lib":
+            elif message == "/create_lib":
                 LibraryName = input("Введите имя библиотеки: ")
                 Library = library.BookLibrary()
                 Libraries[LibraryName] = Library
@@ -50,9 +50,10 @@ if __name__ == "__main__":
                 except KeyError:
                     print("Ошибка: бибилиотеки с таким именем не существует")
                 else:
-                    title = input("Введите название книги: ")
-                    author = input("Введите автора книги: ")
-                    year = int(input("Введите год написания книги: ").strip())
+                    title = input("Введите название книги: ").strip()
+                    author = input("Введите автора книги: ").strip()
+                    year = input("Введите год написания книги: ").strip()
+
                     Libraries[LibraryName].add_book(title=title, author=author, year=year)
 
             elif message == "/get_all_books":
