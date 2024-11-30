@@ -2,7 +2,7 @@ import json
 from dataclasses import dataclass, asdict
 
 
-class LibraryError():
+class LibraryError:
     """Класс для обработки исключений в библиотеке"""
 
     title_error = "В параметр title введены неверные значения"
@@ -11,12 +11,13 @@ class LibraryError():
     id_error = "Книги с введённыи id нет в библиотеке"
     status_error = "Введён неверный статус"
 
+
 @dataclass
 class _Book:
     """Класс для инициализации книги"""
     _title: str
     _author: str
-    _year: int
+    _year: str
     _status: str = "в наличии"
 
 
@@ -32,7 +33,7 @@ class BookLibrary:
         self.__if_delete = "Книга успешно удалена"
         self.__if_new_status = "Статус успешно обновлён"
 
-    def add_book(self, title: str, author: str, year: int):
+    def add_book(self, title: str, author: str, year: str):
         """
         Функция для добавления книги в библиотеку
 
@@ -46,15 +47,18 @@ class BookLibrary:
         self.__id += 1
         book = _Book(title, author, year)
 
-        if not isinstance(title, str):
+        if not title.isalpha():
             print(LibraryError.title_error)
-        elif not isinstance(author, str):
+        if not author.isalpha():
             print(LibraryError.author_error)
-        elif not isinstance(year, int):
+        try:
+            int(year)
+        except ValueError:
             print(LibraryError.year_error)
         else:
-            self.__Library["books"][self.__id] = asdict(book)
-            print(self.__if_add)
+            if title.isalpha() and author.isalpha():
+                self.__Library["books"][self.__id] = asdict(book)
+                print(self.__if_add)
 
     def delete_book(self, book_id: int):
         """
