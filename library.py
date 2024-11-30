@@ -46,21 +46,21 @@ class BookLibrary:
         """
 
         book = _Book(title, author, year)
-        error = 0  # переменная для подсчёта ошибка в параметрах
+        param_errors = 0  # переменная для подсчёта ошибка в параметрах
 
         # ошибка, если в названии книги есть знак пунктуации
         if any([char in "".join(punctuation.split("-")) for char in title]) or not title:
             print(_LibraryError.title_error)
-            error += 1
+            param_errors += 1
         # ошибка, если в имени автора книги все знаки - знаки пунктуации или цифры
         if any([char in ("".join(punctuation.split("-")) + digits) for char in author]) or not author:
             print(_LibraryError.author_error)
-            error += 1
+            param_errors += 1
         # ошибка, если в году издания книги хотя бы один знак не цифра
         if any([(not char.isdigit()) for char in year]) or not year:
             print(_LibraryError.year_error)
-            error += 1
-        if error > 0:
+            param_errors += 1
+        if param_errors > 0:
             return None
 
         self.__id += 1
