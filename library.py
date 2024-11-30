@@ -3,7 +3,7 @@ from string import punctuation, digits
 from dataclasses import dataclass, asdict
 
 
-class LibraryError:
+class _LibraryError:
     """Класс для обработки исключений в библиотеке"""
 
     title_error = "В параметр title введены неверные значения"
@@ -50,15 +50,15 @@ class BookLibrary:
 
         # ошибка, если в названии книги есть знак пунктуации
         if any([char in punctuation for char in title]):
-            print(LibraryError.title_error)
+            print(_LibraryError.title_error)
         # ошибка, если в имени автора книги все знаки - знаки пунктуации или цифры
         if all([char in (punctuation + digits) for char in author]):
-            print(LibraryError.author_error)
+            print(_LibraryError.author_error)
 
         try:
             int(year)
         except ValueError:
-            print(LibraryError.year_error)
+            print(_LibraryError.year_error)
         else:
             self.__Library["books"][self.__id] = asdict(book)
             print(self.__if_add)
@@ -74,7 +74,7 @@ class BookLibrary:
         try:
             del self.__Library["books"][book_id]
         except KeyError:
-            print(LibraryError.id_error)
+            print(_LibraryError.id_error)
         else:
             print(self.__if_delete)
 
@@ -119,6 +119,6 @@ class BookLibrary:
                     self.__Library["books"][book_id]["status"] = status
                     print(self.__if_new_status)
                 except KeyError:
-                    print(LibraryError.id_error)
+                    print(_LibraryError.id_error)
             case _:
-                print(LibraryError.status_error)
+                print(_LibraryError.status_error)
