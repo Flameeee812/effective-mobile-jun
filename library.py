@@ -51,6 +51,7 @@ class BookLibrary:
             print(LibraryError.title_error)
         if not author.isalpha():
             print(LibraryError.author_error)
+            
         try:
             int(year)
         except ValueError:
