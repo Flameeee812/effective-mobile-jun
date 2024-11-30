@@ -1,4 +1,5 @@
 import json
+from string import punctuation, digits
 from dataclasses import dataclass, asdict
 
 
@@ -47,19 +48,20 @@ class BookLibrary:
         self.__id += 1
         book = _Book(title, author, year)
 
-        if not title.isalpha():
+        # ошибка, если в названии книги есть знак пунктуации
+        if any([char in punctuation for char in title]):
             print(LibraryError.title_error)
-        if not author.isalpha():
+        # ошибка, если в имени автора книги все знаки - знаки пунктуации или цифры
+        if all([char in (punctuation + digits) for char in author]):
             print(LibraryError.author_error)
-            
+
         try:
             int(year)
         except ValueError:
             print(LibraryError.year_error)
         else:
-            if title.isalpha() and author.isalpha():
-                self.__Library["books"][self.__id] = asdict(book)
-                print(self.__if_add)
+            self.__Library["books"][self.__id] = asdict(book)
+            print(self.__if_add)
 
     def delete_book(self, book_id: int):
         """
