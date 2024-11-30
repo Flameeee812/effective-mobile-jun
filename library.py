@@ -47,21 +47,25 @@ class BookLibrary:
 
         self.__id += 1
         book = _Book(title, author, year)
+        error = 0 #переменная для подсчёта ошибка в параметрах
 
         # ошибка, если в названии книги есть знак пунктуации
         if any([char in "".join(punctuation.split("-")) for char in title]):
-            return _LibraryError.title_error
+            print(_LibraryError.title_error)
+            error += 1
         # ошибка, если в имени автора книги все знаки - знаки пунктуации или цифры
         if any([char in ("".join(punctuation.split("-")) + digits) for char in author]):
-            return _LibraryError.author_error
-
-        try:
-            int(year)
-        except ValueError:
-            return _LibraryError.year_error
+            print(_LibraryError.author_error)
+            error += 1
+        # ошибка, если в году издания книги хотя бы один знак не цифра
+        if any([(not char.isdigit()) for char in year]):
+            print(_LibraryError.year_error)
+            error += 1
         else:
+            if error > 0:
+                return None
             self.__Library["books"][self.__id] = asdict(book)
-            return self.__if_add
+            print(self.__if_add)
 
     def delete_book(self, book_id: int):
         """
