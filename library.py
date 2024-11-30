@@ -52,7 +52,7 @@ class BookLibrary:
         if any([char in "".join(punctuation.split("-")) for char in title]):
             print(_LibraryError.title_error)
         # ошибка, если в имени автора книги все знаки - знаки пунктуации или цифры
-        if all([char in ("".join(punctuation.split("-")) + digits) for char in author]):
+        if any([char in ("".join(punctuation.split("-")) + digits) for char in author]):
             print(_LibraryError.author_error)
 
         try:
