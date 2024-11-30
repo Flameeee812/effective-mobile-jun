@@ -54,7 +54,7 @@ if __name__ == "__main__":
                     author = input("Введите автора книги: ").strip()
                     year = input("Введите год написания книги: ").strip()
 
-                    Libraries[LibraryName].add_book(title=title, author=author, year=year)
+                    print(Libraries[LibraryName].add_book(title=title, author=author, year=year))
 
             elif message == "/get_all_books":
                 LibraryName = input("""Введите имя библиотеки: """)
