@@ -78,7 +78,7 @@ class BookLibrary:
         else:
             print(self.__if_delete)
 
-    def get_books(self, title: str, author: str, year: int):
+    def get_books(self, title: str = "", author: str = "", year: str = ""):
         """
         Функция для отображения книги по id
 
