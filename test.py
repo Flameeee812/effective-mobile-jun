@@ -11,6 +11,7 @@ if __name__ == "__main__":
 
         test_library.add_book("Заводной апельсин", "Энтони Бёрджесс", "1962")
         test_library.add_book("Тестовая книга", "Энтони Бёрджесс", "1962")
+        test_library.add_book(title="%^", author="12-", year="qweewr--=qwe")
 
         print(test_library.get_books(author="Энтони Бёрджесс", year="1962"))
         print(test_library.get_all_books())
