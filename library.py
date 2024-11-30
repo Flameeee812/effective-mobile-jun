@@ -45,7 +45,6 @@ class BookLibrary:
         4. status = Статус книги, принимает 2 значения (в наличии / выдана)
         """
 
-        self.__id += 1
         book = _Book(title, author, year)
         error = 0  # переменная для подсчёта ошибка в параметрах
 
@@ -63,6 +62,8 @@ class BookLibrary:
             error += 1
         if error > 0:
             return None
+
+        self.__id += 1
         self.__Library["books"][self.__id] = asdict(book)
         print(self.__if_add)
 
