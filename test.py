@@ -11,7 +11,7 @@ if __name__ == "__main__":
 
         test_library.add_book("Заводной апельсин", "Энтони Бёрджесс", "1962")
         test_library.add_book("Тестовая книга", "Энтони Бёрджесс", "1962")
-        test_library.add_book(title="%^", author="12-", year="qweewr--=qwe")
+        test_library.add_book(title="%^", author="12-", year="qweewr--=qwe") # пытаюсь создать книгу с неправильными параметрами
 
         print(test_library.get_books(author="Энтони Бёрджесс", year="1962"))
         print(test_library.get_all_books())
@@ -20,9 +20,9 @@ if __name__ == "__main__":
 
         print(test_library.get_all_books())
 
-        test_library.delete_book(10) #пытаюсь удалить книгу с несуществующим id
+        test_library.delete_book(10) # пытаюсь удалить книгу с несуществующим id
 
-        test_library.set_new_status(1, "qweqwe") #пытаюсь поменять статус на некорректный
+        test_library.set_new_status(1, "qweqwe") # пытаюсь поменять статус на некорректный
         test_library.set_new_status(1, "выдана")
 
     except (LookupError, ValueError) as error:
