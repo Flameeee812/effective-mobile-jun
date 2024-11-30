@@ -116,7 +116,7 @@ class BookLibrary:
         match status:
             case "выдана" | "в наличии":
                 try:
-                    self.__Library["books"][book_id]["status"] = status
+                    self.__Library["books"][book_id]["_status"] = status
                     print(self.__if_new_status)
                 except KeyError:
                     print(_LibraryError.id_error)
