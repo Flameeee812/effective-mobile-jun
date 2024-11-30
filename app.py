@@ -72,10 +72,8 @@ if __name__ == "__main__":
                 else:
                     title = input("Введите название книги: ")
                     author = input("Введите автора книги: ")
-                    try:
-                        year = int(input("Введите год написания книги: "))
-                    except ValueError:
-                        year = ""
+                    year = input("Введите год написания книги: ")
+
                     pprint(Libraries[LibraryName].get_books(title=title, author=author, year=year))
 
             elif message == "/delete_book":
