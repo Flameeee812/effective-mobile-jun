@@ -45,7 +45,6 @@ class BookLibrary:
         4. status = Статус книги, принимает 2 значения (в наличии / выдана)
         """
 
-        book = _Book(title, author, year)
         param_errors = 0  # переменная для подсчёта ошибка в параметрах
 
         # ошибка, если в названии книги есть знак пунктуации
@@ -63,6 +62,7 @@ class BookLibrary:
         if param_errors > 0:
             return None
 
+        book = _Book(title, author, year)
         self.__id += 1
         self.__Library["books"][self.__id] = asdict(book)
         print(self.__if_add)
