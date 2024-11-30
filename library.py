@@ -2,15 +2,14 @@ import json
 from dataclasses import dataclass, asdict
 
 
-class LibraryError(Exception):
+class LibraryError():
     """Класс для обработки исключений в библиотеке"""
 
-    title_error = ValueError("В параметр title введены неверные значения")
-    author_error = ValueError("В параметр author введены неверные значения")
-    year_error = ValueError("В параметр year введены неверные значения")
+    title_error = "В параметр title введены неверные значения"
+    author_error = "В параметр author введены неверные значения"
+    year_error = "В параметр year введены неверные значения"
     id_error = "Книги с введённыи id нет в библиотеке"
-    status_error = ValueError("Введён неверный статус")
-
+    status_error = "Введён неверный статус"
 
 @dataclass
 class _Book:
@@ -48,11 +47,11 @@ class BookLibrary:
         book = _Book(title, author, year)
 
         if not isinstance(title, str):
-            raise LibraryError.title_error
+            print(LibraryError.title_error)
         elif not isinstance(author, str):
-            raise LibraryError.author_error
+            print(LibraryError.author_error)
         elif not isinstance(year, int):
-            raise LibraryError.year_error
+            print(LibraryError.year_error)
         else:
             self.__Library["books"][self.__id] = asdict(book)
             print(self.__if_add)
@@ -115,4 +114,4 @@ class BookLibrary:
                 except KeyError:
                     print(LibraryError.id_error)
             case _:
-                raise LibraryError.status_error
+                print(LibraryError.status_error)
