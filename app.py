@@ -83,9 +83,12 @@ if __name__ == "__main__":
                 except KeyError:
                     print("Ошибка: бибилиотеки с таким именем не существует")
                 else:
-                    book_id = int(input("Введите id книги: "))
-
-                    Libraries[LibraryName].delete_book(book_id=book_id)
+                    try:
+                        book_id = int(input("Введите id книги: "))
+                    except ValueError:
+                        print("id должно быть числом")
+                    else:
+                        Libraries[LibraryName].delete_book(book_id=book_id)
 
             elif message == "/set_new_status":
                 LibraryName = input("""Введите имя библиотеки: """)
@@ -94,10 +97,13 @@ if __name__ == "__main__":
                 except KeyError:
                     print("Ошибка: бибилиотеки с таким именем не существует")
                 else:
-                    book_id = int(input("Введите id книги: "))
-                    new_status = input("Введите новый статус книги: ")
-
-                    Libraries[LibraryName].set_new_status(book_id=book_id, status=new_status)
+                    try:
+                        book_id = int(input("Введите id книги: "))
+                    except ValueError:
+                        print("id должно быть числом")
+                    else:
+                        new_status = input("Введите новый статус книги: ")
+                        Libraries[LibraryName].set_new_status(book_id=book_id, status=new_status)
 
             elif message == "/get_libs":
                 pprint(Libraries)
