@@ -45,14 +45,16 @@ class BookLibrary:
         4. status = Статус книги, принимает 2 значения (в наличии / выдана)
         """
 
+        title_chars = "".join(punctuation.split("-"))
+        author_chars = "".join(punctuation.split("-")) + digits
         param_errors = 0  # переменная для подсчёта ошибка в параметрах
 
-        # ошибка, если в названии книги есть знак пунктуации
-        if any([char in "".join(punctuation.split("-")) for char in title]) or not title:
+        # ошибка, если в названии книги есть знак пунктуации помимо дефиса
+        if any([char in title_chars for char in title]) or not title:
             print(_LibraryError.title_error)
             param_errors += 1
-        # ошибка, если в имени автора книги все знаки - знаки пунктуации или цифры
-        if any([char in ("".join(punctuation.split("-")) + digits) for char in author]) or not author:
+        # ошибка, если в году издания книги хотя бы один знак - это цифра/знак пунктуации помимо тире
+        if any([char in author_chars for char in author]) or not author:
             print(_LibraryError.author_error)
             param_errors += 1
         # ошибка, если в году издания книги хотя бы один знак не цифра
