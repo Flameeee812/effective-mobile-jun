@@ -25,15 +25,16 @@ class _Book:
 class BookLibrary:
     """Класс для создания библиотеки"""
 
+    __if_add = "Книга успешно добавлена"
+    __if_delete = "Книга успешно удалена"
+    __if_new_status = "Статус успешно обновлён"
+    __if_old_status = "Введённый статус уже установлен"
+
     def __init__(self, book_id: int = 0):
         self.__Library = {
             "books": {}
         }
         self.__id = book_id
-        self.__if_add = "Книга успешно добавлена"
-        self.__if_delete = "Книга успешно удалена"
-        self.__if_new_status = "Статус успешно обновлён"
-        self.if_old_status = "Введённый статус уже установлен"
 
     def add_book(self, title: str, author: str, year: str):
         """
@@ -59,7 +60,7 @@ class BookLibrary:
             print(_LibraryError.author_error)
             param_errors += 1
         # ошибка, если в году издания книги хотя бы один знак не цифра
-        if any([(not char.isdigit()) for char in year]) or not year:
+        if year.isdigit():
             print(_LibraryError.year_error)
             param_errors += 1
         if param_errors > 0:
@@ -127,7 +128,7 @@ class BookLibrary:
                         self.__Library["books"][book_id]["_status"] = status
                         print(self.__if_new_status)
                     else:
-                        print(self.if_old_status)
+                        print(self.__if_old_status)
                 except KeyError:
                     print(_LibraryError.id_error)
             case _:
