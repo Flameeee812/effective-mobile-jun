@@ -60,7 +60,7 @@ class BookLibrary:
             print(_LibraryError.author_error)
             param_errors += 1
         # ошибка, если в году издания книги хотя бы один знак не цифра
-        if year.isdigit():
+        if not year.isdigit():
             print(_LibraryError.year_error)
             param_errors += 1
         if param_errors > 0:
