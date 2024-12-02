@@ -33,6 +33,7 @@ class BookLibrary:
         self.__if_add = "Книга успешно добавлена"
         self.__if_delete = "Книга успешно удалена"
         self.__if_new_status = "Статус успешно обновлён"
+        self.if_old_status = "Введённый статус уже установлен"
 
     def add_book(self, title: str, author: str, year: str):
         """
@@ -122,8 +123,11 @@ class BookLibrary:
         match status:
             case "выдана" | "в наличии":
                 try:
-                    self.__Library["books"][book_id]["_status"] = status
-                    print(self.__if_new_status)
+                    if self.__Library["books"][book_id]["_status"] != status:
+                        self.__Library["books"][book_id]["_status"] = status
+                        print(self.__if_new_status)
+                    else:
+                        print(self.if_old_status)
                 except KeyError:
                     print(_LibraryError.id_error)
             case _:
