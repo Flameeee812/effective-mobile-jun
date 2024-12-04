@@ -1,3 +1,4 @@
+import json
 from pprint import pprint
 import library
 
@@ -5,7 +6,13 @@ import library
 if __name__ == "__main__":
 
     print("""Программа для создания, управления и редактирования собственной библиотеки. 
-Для начала работы введите /start""")
+    Для начала работы введите /start""")
+    
+    def write_to_file(lib_name: str) -> None:
+        """Функция для записи библиотеки в файл"""
+
+        with open(f"{lib_name}", "w") as lib_file:
+            lib_file.write(json.dumps(My_Library.Library, ensure_ascii=False))
 
     start = input()
 
@@ -13,6 +20,7 @@ if __name__ == "__main__":
         # булевая переменная для проверки того, выводилась ли подсказка о команде /help
         is_message_about_help = False
         # словарь для хранения библиотек
+
         Libraries = {}
 
         while True:
@@ -38,8 +46,10 @@ if __name__ == "__main__":
 
             elif message == "/create_lib":
                 LibraryName = input("Введите имя библиотеки: ")
-                Library = library.BookLibrary()
-                Libraries[LibraryName] = Library
+                My_Library = library.BookLibrary()
+                Libraries[LibraryName] = My_Library
+
+                write_to_file(LibraryName)
 
                 print("Бибилиотека успешно создана")
 
@@ -50,16 +60,19 @@ if __name__ == "__main__":
                 except KeyError:
                     print("Ошибка: бибилиотеки с таким именем не существует")
                 else:
+                    lib = Libraries[LibraryName]
                     title = input("Введите название книги: ").strip()
                     author = input("Введите автора книги: ").strip()
                     year = input("Введите год написания книги: ").strip()
 
-                    Libraries[LibraryName].add_book(title=title, author=author, year=year)
+                    lib.add_book(title=title, author=author, year=year)
+                    write_to_file(LibraryName)
 
             elif message == "/get_all_books":
                 LibraryName = input("""Введите имя библиотеки: """)
                 try:
-                    pprint(Libraries[LibraryName].get_all_books())
+                    lib = Libraries[LibraryName]
+                    pprint(lib.get_all_books())
                 except KeyError:
                     print("Ошибка: бибилиотеки с таким именем не существует")
 
@@ -70,11 +83,12 @@ if __name__ == "__main__":
                 except KeyError:
                     print("Ошибка: бибилиотеки с таким именем не существует")
                 else:
+                    lib = Libraries[LibraryName]
                     title = input("Введите название книги: ")
                     author = input("Введите автора книги: ")
                     year = input("Введите год написания книги: ")
 
-                    pprint(Libraries[LibraryName].get_books(title=title, author=author, year=year))
+                    pprint(lib.get_books(title=title, author=author, year=year))
 
             elif message == "/delete_book":
                 LibraryName = input("""Введите имя библиотеки: """)
@@ -88,7 +102,10 @@ if __name__ == "__main__":
                     except ValueError:
                         print("id должно быть числом")
                     else:
-                        Libraries[LibraryName].delete_book(book_id=book_id)
+                        lib = Libraries[LibraryName]
+                        lib.delete_book(book_id=book_id)
+
+                        write_to_file(LibraryName)
 
             elif message == "/set_new_status":
                 LibraryName = input("""Введите имя библиотеки: """)
@@ -102,8 +119,11 @@ if __name__ == "__main__":
                     except ValueError:
                         print("id должно быть числом")
                     else:
+                        lib = Libraries[LibraryName]
                         new_status = input("Введите новый статус книги: ")
-                        Libraries[LibraryName].set_new_status(book_id=book_id, status=new_status)
+                        lib.set_new_status(book_id=book_id, status=new_status)
+
+                        write_to_file(LibraryName)
 
             elif message == "/get_libs":
                 pprint(Libraries)
