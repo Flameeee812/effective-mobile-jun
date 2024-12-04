@@ -36,7 +36,7 @@ class BookLibrary:
         }
         self.__id = book_id
 
-    def add_book(self, title: str, author: str, year: str):
+    def add_book(self, title: str, author: str, year: str) -> None:
         """
         Функция для добавления книги в библиотеку
 
@@ -71,7 +71,7 @@ class BookLibrary:
         self.__Library["books"][self.__id] = asdict(book)
         print(self.__if_add)
 
-    def delete_book(self, book_id: int):
+    def delete_book(self, book_id: int) -> None:
         """
         Функция для удаления книги из библиотеки
 
@@ -86,7 +86,7 @@ class BookLibrary:
         else:
             print(self.__if_delete)
 
-    def get_books(self, title: str = "", author: str = "", year: str = ""):
+    def get_books(self, title: str = "", author: str = "", year: str = "") -> str:
         """
         Функция для отображения книги по id
 
@@ -106,14 +106,14 @@ class BookLibrary:
 
         return json.dumps(required_books, ensure_ascii=False)
 
-    def get_all_books(self):
+    def get_all_books(self) -> str:
         """
         Функция для отображения всех книг
         """
 
         return json.dumps(self.__Library["books"], ensure_ascii=False)
 
-    def set_new_status(self, book_id: int, status: str):
+    def set_new_status(self, book_id: int, status: str) -> None:
         """
         Функция для изменения статуса книги по id
 
