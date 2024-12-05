@@ -34,7 +34,7 @@ class BookLibrary:
         self.Library = {
             "books": {}
         }
-        self.id = 0
+        self.__id = 0
 
     def add_book(self, title: str, author: str, year: str) -> None:
         """
