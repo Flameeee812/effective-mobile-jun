@@ -31,7 +31,7 @@ class BookLibrary:
     __if_old_status = "Введённый статус уже установлен"
 
     def __init__(self, book_id: int = 0):
-        self.__Library = {
+        self.Library = {
             "books": {}
         }
         self.__id = book_id
@@ -68,7 +68,7 @@ class BookLibrary:
 
         book = _Book(title, author, year)
         self.__id += 1
-        self.__Library["books"][self.__id] = asdict(book)
+        self.Library["books"][self.__id] = asdict(book)
         print(self.__if_add)
 
     def delete_book(self, book_id: int) -> None:
@@ -80,7 +80,7 @@ class BookLibrary:
         """
 
         try:
-            del self.__Library["books"][book_id]
+            del self.Library["books"][book_id]
         except KeyError:
             print(_LibraryError.id_error)
         else:
@@ -98,11 +98,11 @@ class BookLibrary:
 
         required_books = {}
 
-        for index, book_param in self.__Library["books"].items():
+        for index, book_param in self.Library["books"].items():
             if (((not title) or book_param["_title"] == title) and
                     ((not author) or book_param["_author"] == author) and
                     ((not year) or book_param["_year"] == year)):
-                required_books[index] = self.__Library["books"][index]
+                required_books[index] = self.Library["books"][index]
 
         return json.dumps(required_books, ensure_ascii=False)
 
@@ -111,7 +111,7 @@ class BookLibrary:
         Функция для отображения всех книг
         """
 
-        return json.dumps(self.__Library["books"], ensure_ascii=False)
+        return json.dumps(self.Library["books"], ensure_ascii=False)
 
     def set_new_status(self, book_id: int, status: str) -> None:
         """
@@ -124,8 +124,8 @@ class BookLibrary:
         match status:
             case "выдана" | "в наличии":
                 try:
-                    if self.__Library["books"][book_id]["_status"] != status:
-                        self.__Library["books"][book_id]["_status"] = status
+                    if self.Library["books"][book_id]["_status"] != status:
+                        self.Library["books"][book_id]["_status"] = status
                         print(self.__if_new_status)
                     else:
                         print(self.__if_old_status)
