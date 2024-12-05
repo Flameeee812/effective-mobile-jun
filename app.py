@@ -1,17 +1,25 @@
 import json
 from pprint import pprint
+import pickle
+import os
 import library
+
 
 if __name__ == "__main__":
 
     print("""Программа для создания, управления и редактирования собственной библиотеки. 
 Для начала работы введите /start""")
 
+    def load_from_file():
+        if os.path.exists("Libraries.txt"):
+            with open("Libraries.txt", "rb") as lib_file:
+                return pickle.load(lib_file, encoding="utf-8")
+        return {}
 
     def write_to_file(lib_name: str) -> None:
         """Функция для записи библиотеки в файл"""
         with open(f"{lib_name}", "w") as lib_file:
-            lib_file.write(json.dumps(my_library.Library, ensure_ascii=False))
+            lib_file.write(json.dumps(Libraries[lib_name].Library, ensure_ascii=False))
 
     start = input()
 
@@ -20,7 +28,7 @@ if __name__ == "__main__":
         is_message_about_help = False
         # словарь для хранения библиотек
 
-        Libraries = {}
+        Libraries = load_from_file()
 
         while True:
             if not is_message_about_help:
@@ -135,6 +143,8 @@ if __name__ == "__main__":
                 pprint(Libraries)
 
             elif message == "/end":
+                with open("Libraries.txt", "wb") as file:
+                    pickle.dump(Libraries, file)
                 break
 
             elif message == "":
