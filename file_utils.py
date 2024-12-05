@@ -3,6 +3,10 @@ import os
 import json
 
 
+LIBRARY_DIR = "libraries"
+os.makedirs(LIBRARY_DIR, exist_ok=True)
+
+
 def load_lib_from_file() -> dict:
     """Функция для дисереализации файла с библиотеками"""
 
@@ -15,7 +19,8 @@ def load_lib_from_file() -> dict:
 def write_to_file(lib_name: str, lib: dict) -> None:
     """Функция для записи библиотеки в файл"""
 
-    with open(f"{lib_name}", "w") as lib_file:
+    file_path = os.path.join(LIBRARY_DIR, f"{lib_name}")
+    with open(file_path, "w", encoding="utf-8") as lib_file:
         lib_file.write(json.dumps(lib[lib_name].Library, ensure_ascii=False))
 
 
