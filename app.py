@@ -1,25 +1,12 @@
-import json
 from pprint import pprint
-import pickle
-import os
 import library
+import app_funcs
 
 
 if __name__ == "__main__":
 
     print("""Программа для создания, управления и редактирования собственной библиотеки. 
 Для начала работы введите /start""")
-
-    def load_from_file():
-        if os.path.exists("Libraries.txt"):
-            with open("Libraries.txt", "rb") as lib_file:
-                return pickle.load(lib_file, encoding="utf-8")
-        return {}
-
-    def write_to_file(lib_name: str) -> None:
-        """Функция для записи библиотеки в файл"""
-        with open(f"{lib_name}", "w") as lib_file:
-            lib_file.write(json.dumps(Libraries[lib_name].Library, ensure_ascii=False))
 
     start = input()
 
@@ -28,7 +15,7 @@ if __name__ == "__main__":
         is_message_about_help = False
         # словарь для хранения библиотек
 
-        Libraries = load_from_file()
+        Libraries = app_funcs.load_lib_from_file()
 
         while True:
             if not is_message_about_help:
@@ -54,11 +41,28 @@ if __name__ == "__main__":
             elif message == "/create_lib":
 
                 library_name = input("Введите имя библиотеки: ")
-                my_library = library.BookLibrary()
-                Libraries[library_name] = my_library
+
+                if library_name in Libraries.keys():
+                    print("Библиотека с таким именем уже существует")
+                else:
+                    Libraries[library_name] = library.BookLibrary()
+
+                    try:
+                        app_funcs.write_to_file(lib_name=library_name, lib=Libraries)
+                    except OSError:
+                        print("Ошибка: недопустимое имя файла")
+                    else:
+                        if "\\" in library_name:
+                            print("Ошибка: недопустимое имя файла")
+                        else:
+                            print("Библиотека успешно создана")
+
+            elif message == "/set_lib":
+                library_name = input("Введите имя библиотеки: ")
+                Libraries[library_name] = library.BookLibrary()
 
                 try:
-                    write_to_file(library_name)
+                    app_funcs.write_to_file(lib_name=library_name, lib=Libraries)
                 except OSError:
                     print("Ошибка: недопустимое имя файла")
                 else:
@@ -80,7 +84,7 @@ if __name__ == "__main__":
                     year = input("Введите год написания книги: ").strip()
 
                     lib.add_book(title=title, author=author, year=year)
-                    write_to_file(library_name)
+                    app_funcs.write_to_file(lib_name=library_name, lib=Libraries)
 
             elif message == "/get_all_books":
                 library_name = input("""Введите имя библиотеки: """)
@@ -119,7 +123,7 @@ if __name__ == "__main__":
                         lib = Libraries[library_name]
                         lib.delete_book(book_id=book_id)
 
-                        write_to_file(library_name)
+                        app_funcs.write_to_file(lib_name=library_name, lib=Libraries)
 
             elif message == "/set_new_status":
                 library_name = input("""Введите имя библиотеки: """)
@@ -137,14 +141,13 @@ if __name__ == "__main__":
                         new_status = input("Введите новый статус книги: ")
                         lib.set_new_status(book_id=book_id, status=new_status)
 
-                        write_to_file(library_name)
+                        app_funcs.write_to_file(lib_name=library_name, lib=Libraries)
 
             elif message == "/get_libs":
                 pprint(Libraries)
 
             elif message == "/end":
-                with open("Libraries.txt", "wb") as file:
-                    pickle.dump(Libraries, file)
+                app_funcs.dump_lib_to_file(lib=Libraries)
                 break
 
             elif message == "":
