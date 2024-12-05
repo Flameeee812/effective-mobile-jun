@@ -2,17 +2,21 @@ import json
 from pprint import pprint
 import library
 
-
 if __name__ == "__main__":
 
     print("""Программа для создания, управления и редактирования собственной библиотеки. 
     Для начала работы введите /start""")
-    
+
+
     def write_to_file(lib_name: str) -> None:
         """Функция для записи библиотеки в файл"""
+        try:
+            with open(f"{lib_name}", "w") as lib_file:
+                lib_file.write(json.dumps(my_library.Library, ensure_ascii=False))
+                print("Бибилиотека успешно создана")
+        except OSError:
+            print("Ошибка: недопустимое имя файла")
 
-        with open(f"{lib_name}", "w") as lib_file:
-            lib_file.write(json.dumps(My_Library.Library, ensure_ascii=False))
 
     start = input()
 
@@ -45,45 +49,43 @@ if __name__ == "__main__":
         8. /end - Завершает работу приложения""")
 
             elif message == "/create_lib":
-                LibraryName = input("Введите имя библиотеки: ")
-                My_Library = library.BookLibrary()
-                Libraries[LibraryName] = My_Library
+                library_name = input("Введите имя библиотеки: ")
+                my_library = library.BookLibrary()
+                Libraries[library_name] = my_library
 
-                write_to_file(LibraryName)
-
-                print("Бибилиотека успешно создана")
+                write_to_file(library_name)
 
             elif message == "/add_book":
-                LibraryName = input("""Введите имя библиотеки, в которую вы хотите добавить книгу: """)
+                library_name = input("""Введите имя библиотеки, в которую вы хотите добавить книгу: """)
                 try:
-                    Libraries[LibraryName]
+                    Libraries[library_name]
                 except KeyError:
                     print("Ошибка: бибилиотеки с таким именем не существует")
                 else:
-                    lib = Libraries[LibraryName]
+                    lib = Libraries[library_name]
                     title = input("Введите название книги: ").strip()
                     author = input("Введите автора книги: ").strip()
                     year = input("Введите год написания книги: ").strip()
 
                     lib.add_book(title=title, author=author, year=year)
-                    write_to_file(LibraryName)
+                    write_to_file(library_name)
 
             elif message == "/get_all_books":
-                LibraryName = input("""Введите имя библиотеки: """)
+                library_name = input("""Введите имя библиотеки: """)
                 try:
-                    lib = Libraries[LibraryName]
+                    lib = Libraries[library_name]
                     pprint(lib.get_all_books())
                 except KeyError:
                     print("Ошибка: бибилиотеки с таким именем не существует")
 
             elif message == "/get_books":
-                LibraryName = input("""Введите имя библиотеки: """)
+                library_name = input("""Введите имя библиотеки: """)
                 try:
-                    Libraries[LibraryName]
+                    Libraries[library_name]
                 except KeyError:
                     print("Ошибка: бибилиотеки с таким именем не существует")
                 else:
-                    lib = Libraries[LibraryName]
+                    lib = Libraries[library_name]
                     title = input("Введите название книги: ")
                     author = input("Введите автора книги: ")
                     year = input("Введите год написания книги: ")
@@ -91,9 +93,9 @@ if __name__ == "__main__":
                     pprint(lib.get_books(title=title, author=author, year=year))
 
             elif message == "/delete_book":
-                LibraryName = input("""Введите имя библиотеки: """)
+                library_name = input("""Введите имя библиотеки: """)
                 try:
-                    Libraries[LibraryName]
+                    Libraries[library_name]
                 except KeyError:
                     print("Ошибка: бибилиотеки с таким именем не существует")
                 else:
@@ -102,15 +104,15 @@ if __name__ == "__main__":
                     except ValueError:
                         print("id должно быть числом")
                     else:
-                        lib = Libraries[LibraryName]
+                        lib = Libraries[library_name]
                         lib.delete_book(book_id=book_id)
 
-                        write_to_file(LibraryName)
+                        write_to_file(library_name)
 
             elif message == "/set_new_status":
-                LibraryName = input("""Введите имя библиотеки: """)
+                library_name = input("""Введите имя библиотеки: """)
                 try:
-                    Libraries[LibraryName]
+                    Libraries[library_name]
                 except KeyError:
                     print("Ошибка: бибилиотеки с таким именем не существует")
                 else:
@@ -119,11 +121,11 @@ if __name__ == "__main__":
                     except ValueError:
                         print("id должно быть числом")
                     else:
-                        lib = Libraries[LibraryName]
+                        lib = Libraries[library_name]
                         new_status = input("Введите новый статус книги: ")
                         lib.set_new_status(book_id=book_id, status=new_status)
 
-                        write_to_file(LibraryName)
+                        write_to_file(library_name)
 
             elif message == "/get_libs":
                 pprint(Libraries)
