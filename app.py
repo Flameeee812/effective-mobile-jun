@@ -39,20 +39,20 @@ if __name__ == "__main__":
         8. /end - Завершает работу приложения""")
 
             elif message == "/create_lib":
-
                 library_name = input("Введите имя библиотеки: ")
 
                 if library_name in Libraries.keys():
                     print("Библиотека с таким именем уже существует")
                 else:
                     Libraries[library_name] = library.BookLibrary()
-
                     try:
                         app_funcs.write_to_file(lib_name=library_name, lib=Libraries)
                     except OSError:
+                        Libraries.pop(library_name)
                         print("Ошибка: недопустимое имя файла")
                     else:
                         if "\\" in library_name:
+                            Libraries.pop(library_name)
                             print("Ошибка: недопустимое имя файла")
                         else:
                             print("Библиотека успешно создана")
@@ -64,9 +64,11 @@ if __name__ == "__main__":
                 try:
                     app_funcs.write_to_file(lib_name=library_name, lib=Libraries)
                 except OSError:
+                    Libraries.pop(library_name)
                     print("Ошибка: недопустимое имя файла")
                 else:
                     if "\\" in library_name:
+                        Libraries.pop(library_name)
                         print("Ошибка: недопустимое имя файла")
                     else:
                         print("Библиотека успешно создана")
