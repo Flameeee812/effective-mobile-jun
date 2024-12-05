@@ -51,10 +51,14 @@ if __name__ == "__main__":
 
                 try:
                     write_to_file(library_name)
-                    print("Бибилиотека успешно создана")
                 except OSError:
                     print("Ошибка: недопустимое имя файла")
-
+                else:
+                    if "\\" in library_name:
+                        print("Ошибка: недопустимое имя файла")
+                    else:
+                        print("Библиотека успешно создана")
+                        
             elif message == "/add_book":
                 library_name = input("""Введите имя библиотеки, в которую вы хотите добавить книгу: """)
                 try:
