@@ -5,18 +5,13 @@ import library
 if __name__ == "__main__":
 
     print("""Программа для создания, управления и редактирования собственной библиотеки. 
-    Для начала работы введите /start""")
+Для начала работы введите /start""")
 
 
     def write_to_file(lib_name: str) -> None:
         """Функция для записи библиотеки в файл"""
-        try:
-            with open(f"{lib_name}", "w") as lib_file:
-                lib_file.write(json.dumps(my_library.Library, ensure_ascii=False))
-                print("Бибилиотека успешно создана")
-        except OSError:
-            print("Ошибка: недопустимое имя файла")
-
+        with open(f"{lib_name}", "w") as lib_file:
+            lib_file.write(json.dumps(my_library.Library, ensure_ascii=False))
 
     start = input()
 
@@ -49,11 +44,16 @@ if __name__ == "__main__":
         8. /end - Завершает работу приложения""")
 
             elif message == "/create_lib":
+
                 library_name = input("Введите имя библиотеки: ")
                 my_library = library.BookLibrary()
                 Libraries[library_name] = my_library
 
-                write_to_file(library_name)
+                try:
+                    write_to_file(library_name)
+                    print("Бибилиотека успешно создана")
+                except OSError:
+                    print("Ошибка: недопустимое имя файла")
 
             elif message == "/add_book":
                 library_name = input("""Введите имя библиотеки, в которую вы хотите добавить книгу: """)
