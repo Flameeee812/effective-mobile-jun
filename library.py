@@ -30,11 +30,11 @@ class BookLibrary:
     __if_new_status = "Статус успешно обновлён"
     __if_old_status = "Введённый статус уже установлен"
 
-    def __init__(self, book_id: int = 0):
+    def __init__(self):
         self.Library = {
             "books": {}
         }
-        self.__id = book_id
+        self.id = 0
 
     def add_book(self, title: str, author: str, year: str) -> None:
         """
