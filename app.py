@@ -27,7 +27,7 @@ if __name__ == "__main__":
                 message = input()
 
                 if message == "/help":
-                    print("""  Команды:
+                    print("""\n  Команды:
 1. /create_lib - Команда для создания бибилиотеки
 2. /add_book - Добавляет книгу с введёнными 
     пользователем title/author/year
