@@ -1,6 +1,6 @@
 from pprint import pprint
 import library
-import app_funcs
+import file_utils
 
 
 if __name__ == "__main__":
@@ -15,7 +15,7 @@ if __name__ == "__main__":
         is_message_about_help = False
         # словарь для хранения библиотек
 
-        Libraries = app_funcs.load_lib_from_file()
+        Libraries = file_utils.load_lib_from_file()
 
         while True:
             if not is_message_about_help:
@@ -46,7 +46,7 @@ if __name__ == "__main__":
                 else:
                     Libraries[library_name] = library.BookLibrary()
                     try:
-                        app_funcs.write_to_file(lib_name=library_name, lib=Libraries)
+                        file_utils.write_to_file(lib_name=library_name, lib=Libraries)
                     except OSError:
                         Libraries.pop(library_name)
                         print("Ошибка: недопустимое имя файла")
@@ -62,7 +62,7 @@ if __name__ == "__main__":
                 Libraries[library_name] = library.BookLibrary()
 
                 try:
-                    app_funcs.write_to_file(lib_name=library_name, lib=Libraries)
+                    file_utils.write_to_file(lib_name=library_name, lib=Libraries)
                 except OSError:
                     Libraries.pop(library_name)
                     print("Ошибка: недопустимое имя файла")
@@ -86,7 +86,7 @@ if __name__ == "__main__":
                     year = input("Введите год написания книги: ").strip()
 
                     lib.add_book(title=title, author=author, year=year)
-                    app_funcs.write_to_file(lib_name=library_name, lib=Libraries)
+                    file_utils.write_to_file(lib_name=library_name, lib=Libraries)
 
             elif message == "/get_all_books":
                 library_name = input("""Введите имя библиотеки: """)
@@ -125,7 +125,7 @@ if __name__ == "__main__":
                         lib = Libraries[library_name]
                         lib.delete_book(book_id=book_id)
 
-                        app_funcs.write_to_file(lib_name=library_name, lib=Libraries)
+                        file_utils.write_to_file(lib_name=library_name, lib=Libraries)
 
             elif message == "/set_new_status":
                 library_name = input("""Введите имя библиотеки: """)
@@ -143,13 +143,13 @@ if __name__ == "__main__":
                         new_status = input("Введите новый статус книги: ")
                         lib.set_new_status(book_id=book_id, status=new_status)
 
-                        app_funcs.write_to_file(lib_name=library_name, lib=Libraries)
+                        file_utils.write_to_file(lib_name=library_name, lib=Libraries)
 
             elif message == "/get_libs":
                 pprint(Libraries)
 
             elif message == "/end":
-                app_funcs.dump_lib_to_file(lib=Libraries)
+                file_utils.dump_lib_to_file(lib=Libraries)
                 break
 
             elif message == "":
