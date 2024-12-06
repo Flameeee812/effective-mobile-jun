@@ -61,7 +61,6 @@ if __name__ == "__main__":
                 elif message == "/set_lib":
                     library_name = input("Введите имя библиотеки: ")
                     Libraries[library_name] = library.BookLibrary(name=library_name)
-
                     try:
                         file_utils.write_to_file(lib_name=library_name, lib=Libraries)
                     except OSError:
@@ -72,7 +71,21 @@ if __name__ == "__main__":
                             Libraries.pop(library_name)
                             print("Ошибка: недопустимое имя файла")
                         else:
-                            print("Библиотека успешно создана")
+                            print("Библиотека успешно обновлена")
+
+                elif message == "/add_or_set_overview":
+                    library_name = input("Введите имя библиотеки: ")
+                    try:
+                        Libraries[library_name]
+                    except KeyError:
+                        print("Ошибка: бибилиотеки с таким именем не существует")
+                    else:
+                        lib = Libraries[library_name]
+                        overview = input("Введите описание для библиотеки: ")
+                        lib.Library["overview"] = overview
+
+                        file_utils.write_to_file(lib_name=library_name, lib=Libraries)
+                        print("Описание для библиотеки добавлено")
 
                 elif message == "/add_book":
                     library_name = input("""Введите имя библиотеки, в которую вы хотите добавить книгу: """)
@@ -164,4 +177,3 @@ if __name__ == "__main__":
             print("Ошибка: неизвестная команда")
     except KeyboardInterrupt:
         print("Программа завершена")
-
