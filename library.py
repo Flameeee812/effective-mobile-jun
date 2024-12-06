@@ -25,16 +25,23 @@ class _Book:
 class BookLibrary:
     """Класс для создания библиотеки"""
 
+    library = {}
+
     __if_add = "Книга успешно добавлена"
     __if_delete = "Книга успешно удалена"
     __if_new_status = "Статус успешно обновлён"
     __if_old_status = "Введённый статус уже установлен"
 
-    def __init__(self):
+    def __init__(self, name: str):
         self.Library = {
+            "overview": None,
             "books": {}
         }
         self.__id = 0
+        self.__lib_name = name
+
+    def __str__(self):
+        return f"Библиотека {self.__lib_name}"
 
     def add_book(self, title: str, author: str, year: str) -> None:
         """
